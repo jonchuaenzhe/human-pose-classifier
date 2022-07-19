@@ -31,6 +31,7 @@ _keypoints_3d': [], 'face_keypoints_3d': [], 'hand_left_keypoints_3d': [], 'hand
 The feature engineering pipeline then takes the 15 most important keypoints (points 0-14 only) and augments these 15 datapoints with the following engineered data:
 1. The length of the limb segments
 2. The angle between key joints (cosine of vectors)
+
 Refer to 'train.ipynb' for detailed implementation.
 
 ![OpenPose](images/keypoints.png)
