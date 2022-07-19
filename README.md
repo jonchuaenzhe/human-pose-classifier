@@ -1,16 +1,19 @@
 March 2022
 # Human Pose Classifier
 
-This project uses the OpenPose algorithm to extract human skeleton models from images. An XGBoost model is then trained on the key coordinates of the skeleton to determine the pose of the human in the picture.
+This project is a 2-stage pipeline for building a model that can classify human poses simply from an image.
 
-![OpenPose](images/openpose.png)
+The first stage utilizes the OpenPose algorithm to extract keypoints from the human body structure. The second stage consists of a feature engineering pipeline that takes the keypoints, processes it, and feeds it into an XGBoost model that is trained with supervised learning.
 
-The model achieved 99% accuracy in classifying the (a) sitting, (b) standing, and (c) running positions on an out of sample test set.
+In this implementation, the model was trained to classify the (a) sitting, (b) standing, and (c) running positions, and it achieved 99% accuracy on an out of sample test set.
 
 ## OpenPose Algorithm
 
-The OpenPose system (https://github.com/CMU-Perceptual-Computing-Lab/openpose) uses a multi-stage CNN to determine up to 25 keypoints of the human skeleton structure from a human photo. The output from an image is as shown, with each value representing pixels:
+The OpenPose system (https://github.com/CMU-Perceptual-Computing-Lab/openpose) uses a multi-stage CNN to determine up to 25 keypoints of the human skeleton structure from a human photo.
 
+![OpenPose](images/openpose.png)
+
+The numerical output is as shown, with each pair of 'pose_keypoints_2d' value representing the x and y coordinates:
 ```
 {'version': 1.3, 'people': [{'person_id': [-1], 'pose_keypoints_2d': [528.129, 224.146, 0.899704, 528.227,
 384.891, 0.875981, 398.802, 381.476, 0.825535, 339.442, 563.087, 0.837085, 398.831, 583.999, 0.754884, 661.
@@ -25,8 +28,11 @@ _keypoints_3d': [], 'face_keypoints_3d': [], 'hand_left_keypoints_3d': [], 'hand
 
 ## XGBoost Model
 
-The XGBoost model then takes the 15 most important keypoints (points 0-14 only) as well as manually engineered features such as (a) the angle between key joints, and (b) the length of limb segments.
+The feature engineering pipeline then takes the 15 most important keypoints (points 0-14 only) and augments these 15 datapoints with the following engineered data:
+1. The length of the limb segments
+2. The angle between key joints (cosine of vectors)
+Refer to 'train.ipynb' for detailed implementation.
 
 ![OpenPose](images/keypoints.png)
 
-With these information, the XGBoost model is trained to classify the poses into sitting, standing, or running. The training process and feature engineering steps can be used for a wider variety of poses.
+With a total of 52 features, the XGBoost model is trained to classify the poses into sitting, standing, or running. While only 3 different poses were used, this training process and feature engineering steps can be used for a wider variety of poses.
