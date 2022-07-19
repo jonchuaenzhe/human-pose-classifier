@@ -1,9 +1,11 @@
 March 2022
-
 # Human Pose Classifier
 
 This project uses the OpenPose algorithm to extract human skeleton models from images. An XGBoost model is then trained on the key coordinates of the skeleton to determine the pose of the human in the picture.
 
+![OpenPose](images/openpose.png)
+
+The model achieved 99% accuracy in classifying the (a) sitting, (b) standing, and (c) running positions on an out of sample test set.
 
 ## OpenPose Algorithm
 
@@ -20,3 +22,11 @@ The OpenPose system (https://github.com/CMU-Perceptual-Computing-Lab/openpose) u
 0.8, 0.606087], 'face_keypoints_2d': [], 'hand_left_keypoints_2d': [], 'hand_right_keypoints_2d': [], 'pose
 _keypoints_3d': [], 'face_keypoints_3d': [], 'hand_left_keypoints_3d': [], 'hand_right_keypoints_3d': []}]}
 ```
+
+## XGBoost Model
+
+The XGBoost model then takes the 15 most important keypoints (points 0-14 only) as well as manually engineered features such as (a) the angle between key joints, and (b) the length of limb segments.
+
+![OpenPose](images/keypoints.png)
+
+With these information, the XGBoost model is trained to classify the poses into sitting, standing, or running. The training process and feature engineering steps can be used for a wider variety of poses.
