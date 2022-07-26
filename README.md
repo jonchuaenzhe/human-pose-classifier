@@ -13,7 +13,7 @@ The OpenPose system (https://github.com/CMU-Perceptual-Computing-Lab/openpose) u
 
 ![OpenPose](images/openpose.png)
 
-The numerical output is as shown, with each pair of 'pose_keypoints_2d' value representing the x and y coordinates:
+The numerical output is as shown, with the "pose_keypoints_2d" values representing the x and y coordinates:
 ```
 {'version': 1.3, 'people': [{'person_id': [-1], 'pose_keypoints_2d': [528.129, 224.146, 0.899704, 528.227,
 384.891, 0.875981, 398.802, 381.476, 0.825535, 339.442, 563.087, 0.837085, 398.831, 583.999, 0.754884, 661.
